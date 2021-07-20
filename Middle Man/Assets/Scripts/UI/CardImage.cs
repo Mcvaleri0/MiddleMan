@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 
@@ -8,11 +9,21 @@ namespace UI
 {
     public class CardImage : MonoBehaviour
     {
+        #region /* Image Source */
+        
+        private Image Card { get; set; }
+        
+        #endregion
+
+
+
         #region === Unity Events ===
 
         // Start is called before the first frame update
         void Start()
         {
+            this.Card = this.transform.GetComponent<Image>();
+
             this.SetImageDimension();
         }
 
@@ -40,6 +51,17 @@ namespace UI
             rect.anchoredPosition = new Vector2(0, y);
         }
 
+        #endregion
+
+
+
+        #region === Set Methods ===
+        
+        public void SetCardImage(Sprite image) 
+        {
+            this.Card.sprite = image;
+        }
+        
         #endregion
     }
 }

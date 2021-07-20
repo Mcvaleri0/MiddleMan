@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 
 
@@ -8,9 +10,9 @@ namespace UI
 {
     public class CardName : MonoBehaviour
     {
-        #region /* Background Attributes */
-
-        public RectTransform Background;
+        #region /* Text Attributes */
+        
+        private Text Name { get; set; }
         
         #endregion
 
@@ -21,7 +23,13 @@ namespace UI
         // Start is called before the first frame update
         void Start()
         {
-            this.SetBackgroundDimension();
+            this.Name = this.transform.GetComponentInChildren<Text>();
+
+            int height = (int)(0.1 * Screen.height);
+
+            this.SetBackgroundDimension(Screen.width, height);
+            this.SetTextDimensions(Screen.width, height);
+            this.SetCardName(Constants.INITAL_CARD_TEXT);
         }
 
         // Update is called once per frame
@@ -34,15 +42,29 @@ namespace UI
 
         #region === Background Functions ===
 
-        private void SetBackgroundDimension()
+        private void SetBackgroundDimension(int width, int height)
         {
-            int height = (int)(0.1 * Screen.height);
-            this.Background.sizeDelta = new Vector2(Screen.width, height);
+            RectTransform background = this.transform.GetComponent<RectTransform>();
+
+            background.sizeDelta = new Vector2(width, height);
         }
         #endregion
 
 
         #region === Text Functions ===
+
+        private void SetTextDimensions(int width, int height)
+        {
+            RectTransform textBox = this.Name.transform.GetComponent<RectTransform>();
+            textBox.sizeDelta = new Vector2(width, height);
+        }
+
+
+        public void SetCardName(string name)
+        {
+            this.Name.text = name;
+        }
+
         #endregion
     }
 }
