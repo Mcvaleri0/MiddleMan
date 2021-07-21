@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Cards;
+
 
 
 namespace DeepLink
@@ -14,6 +16,12 @@ namespace DeepLink
         public static DeepLinkManager Instance { get; private set; }
         
         public string DeepLinkURL;
+
+        #endregion
+
+        #region /* Controllers */
+
+        private CardController CardController { get; set; }
 
         #endregion
 
@@ -43,8 +51,10 @@ namespace DeepLink
         // Start is called before the first frame update
         void Start()
         {
-
+            Transform card = GameObject.Find("Card").transform;
+            this.CardController = card.GetComponent<CardController>();
         }
+
 
         // Update is called once per frame
         void Update()
@@ -63,23 +73,14 @@ namespace DeepLink
             this.DeepLinkURL = url;
 
             // Decode the URL to determine action. 
-            // In this example, the app expects a link formatted like this:
-            // unitydl://mylink?scene1
-            string sceneName = url.Split("?"[0])[1];
+            // deep links have the form -> middl://middle_man?type/id/name
+            string[] parameters = url.Split("?"[0])[1].Split("/"[0]);
 
-            bool validScene;
-            switch (sceneName)
-            {
-                case "scene1":
-                    validScene = true;
-                    break;
-                case "scene2":
-                    validScene = true;
-                    break;
-                default:
-                    validScene = false;
-                    break;
-            }
+            string cardType = parameters[0];
+            string cardID = parameters[1];
+            string cardName = parameters[2];
+
+            this.CardController.SubmitCard(cardType, cardID, cardName);
         }
 
         #endregion

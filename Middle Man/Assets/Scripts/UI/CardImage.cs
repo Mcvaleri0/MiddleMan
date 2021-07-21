@@ -11,6 +11,7 @@ namespace UI
     {
         #region /* Image Source */
         
+        private RectTransform ImageBox { get; set; }
         private Image Card { get; set; }
         
         #endregion
@@ -23,6 +24,7 @@ namespace UI
         void Start()
         {
             this.Card = this.transform.GetComponent<Image>();
+            this.ImageBox = this.transform.GetComponent<RectTransform>();
 
             this.SetImageDimension();
         }
@@ -42,13 +44,12 @@ namespace UI
 
         private void SetImageDimension()
         {
-            RectTransform rect = this.transform.GetComponent<RectTransform>();
 
             int height = (int)(0.9 * Screen.height);
-            rect.sizeDelta = new Vector2(Screen.width, height);
+            this.ImageBox.sizeDelta = new Vector2(Screen.width, height);
 
             int y = -(int)(0.05 * Screen.height);
-            rect.anchoredPosition = new Vector2(0, y);
+            this.ImageBox.anchoredPosition = new Vector2(0, y);
         }
 
         #endregion
@@ -60,6 +61,17 @@ namespace UI
         public void SetCardImage(Sprite image) 
         {
             this.Card.sprite = image;
+        }
+
+
+        public void Rotate(float angle)
+        {
+            this.ImageBox.eulerAngles = new Vector3(0, 0, angle);
+
+            float width = this.ImageBox.sizeDelta.x;
+            float height = this.ImageBox.sizeDelta.y;
+
+            this.ImageBox.sizeDelta = new Vector2(height, width);
         }
         
         #endregion
