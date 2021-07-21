@@ -67,9 +67,72 @@ namespace Cards
         #endregion
 
 
+        #region === Information Methods ===
+        
+        public List<string> AllCardTypes()
+        {
+            List<string> types = new List<string>
+            {
+                Constants.CHARACTER_TYPE,
+                Constants.EVIDENCE_TYPE,
+                Constants.FORENSIC_TYPE,
+                Constants.ITEM_TYPE,
+                Constants.LOCATION_TYPE
+            };
+
+            return types;
+        }
+
+
+        public List<string> AllCardIDs(string type)
+        {
+            switch(type)
+            {
+                case Constants.CHARACTER_TYPE:
+                    return this.GetCardIDs(Constants.CHARACTERS_IMAGES);
+
+                case Constants.EVIDENCE_TYPE:
+                    return this.GetCardIDs(Constants.EVIDENCES_IMAGES);
+
+                case Constants.FORENSIC_TYPE:
+                    return this.GetCardIDs(Constants.FORENSIC_IMAGES);
+
+                case Constants.ITEM_TYPE:
+                    return this.GetCardIDs(Constants.ITEMS_IMAGES);
+
+                case Constants.LOCATION_TYPE:
+                    return this.GetCardIDs(Constants.LOCATIONS_IMAGES);
+
+                default:
+                    throw new System.Exception(Constants.INVALID_TYPE_RECEIVED);
+            };
+        }
+
+
+        #region == Auxiliar ==
+
+        private List<string> GetCardIDs(string path)
+        {
+            List<string> ids = new List<string>();
+
+            Object[] charsFiles = Resources.LoadAll(path);
+
+            foreach (Object file in charsFiles)
+            {
+                ids.Add(file.name);
+            }
+
+            return ids;
+        }
+
+        #endregion
+
+        #endregion
+
+
 
         #region === Submit Cards ===
-        
+
         public void SubmitCard(string type, string id, string name)
         {
             string path;
@@ -81,12 +144,13 @@ namespace Cards
                     path = Constants.CHARACTERS_IMAGES;
                     break;
 
-                case Constants.EVIDENCE__TYPE:
+                case Constants.EVIDENCE_TYPE:
                     path = Constants.EVIDENCES_IMAGES;
                     break;
 
                 case Constants.FORENSIC_TYPE:
                     path = Constants.FORENSIC_IMAGES;
+                    needsRotation = true;
                     break;
 
                 case Constants.ITEM_TYPE:
@@ -104,23 +168,34 @@ namespace Cards
             
             path = Path.Combine(path, id);
 
+            this.LoadCard(path, name, needsRotation);
+
+        }
+
+
+        #region == Auxiliar ==
+
+        private void LoadCard(string path, string name, bool rotated)
+        {
             Sprite image = Resources.Load<Sprite>(path);
-            
+
             this.CardImage.SetCardImage(image);
             this.CardName.SetCardName(name);
 
-            if (needsRotation && !this.OnSide)
-            {
-                this.CardImage.Rotate(90);
-                this.OnSide = true;
-            }
-            else if (!needsRotation && this.OnSide)
+            if (rotated && !this.OnSide)
             {
                 this.CardImage.Rotate(-90);
+                this.OnSide = true;
+            }
+            else if (!rotated && this.OnSide)
+            {
+                this.CardImage.Rotate(0);
                 this.OnSide = false;
             }
         }
-        
+
+        #endregion
+
         #endregion
     }
 }

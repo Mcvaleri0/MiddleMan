@@ -67,7 +67,7 @@ namespace DeepLink
 
         #region === Deep Link Methods ===
 
-        private void onDeepLinkActivated(string url)
+        public void onDeepLinkActivated(string url)
         {
             // Update DeepLink Manager global variable, so URL can be accessed from anywhere.
             this.DeepLinkURL = url;

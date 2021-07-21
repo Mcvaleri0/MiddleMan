@@ -11,7 +11,7 @@ namespace Cards
         #region === Cards Types ===
 
         public const string CHARACTER_TYPE = "character";
-        public const string EVIDENCE__TYPE = "evidence";
+        public const string EVIDENCE_TYPE = "evidence";
         public const string FORENSIC_TYPE = "forensic";
         public const string ITEM_TYPE = "special";
         public const string LOCATION_TYPE = "location";
@@ -21,11 +21,11 @@ namespace Cards
 
         #region === Resources Path ===
 
-        public const string CHARACTERS_IMAGES = "Characters/Images";
-        public const string EVIDENCES_IMAGES = "Evidences/Images";
-        public const string FORENSIC_IMAGES = "Forensic/Images";
-        public const string ITEMS_IMAGES = "Items/Images";
-        public const string LOCATIONS_IMAGES = "Locations/Images";
+        public const string CHARACTERS_IMAGES = "Cards/Characters/Images";
+        public const string EVIDENCES_IMAGES = "Cards/Evidences/Images";
+        public const string FORENSIC_IMAGES = "Cards/Forensic/Images";
+        public const string ITEMS_IMAGES = "Cards/Items/Images";
+        public const string LOCATIONS_IMAGES = "Cards/Locations/Images";
 
         #endregion
 
