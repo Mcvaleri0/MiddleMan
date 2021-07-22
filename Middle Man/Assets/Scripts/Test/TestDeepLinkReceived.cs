@@ -33,7 +33,8 @@ namespace Test
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0) || 
+               ((Input.touchCount > 0) && Input.GetTouch(0).phase == TouchPhase.Ended))
             {
                 this.SimulateDeepLinkSend();
             }
