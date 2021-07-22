@@ -42,7 +42,9 @@
                 "Id": "notifiy_icon",
                 "Type": 0,
                 "Asset": {
-                    "instanceID": 0
+                    "fileID": 2800000,
+                    "guid": "b7413c595807fcc45b6ff47f8313ecc9",
+                    "type": 3
                 }
             }
         ]
