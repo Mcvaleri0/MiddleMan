@@ -68,7 +68,7 @@ namespace Cards {
 
         private string GenerateCardName()
         {
-            return "Name Received";
+            return "Chief+Officer+Doyle";
         }
         
         #endregion

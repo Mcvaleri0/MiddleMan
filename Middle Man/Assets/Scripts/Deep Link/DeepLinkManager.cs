@@ -74,14 +74,33 @@ namespace DeepLink
 
             // Decode the URL to determine action. 
             // deep links have the form -> middl://middle_man?type/id/name
-            string[] parameters = url.Split("?"[0])[1].Split("/"[0]);
+            string[] parameters = url.Split('?')[1].Split('/');
 
             string cardType = parameters[0];
             string cardID = parameters[1];
-            string cardName = parameters[2];
+            string cardName = this.CleanCardName(parameters[2]);
 
             this.CardController.SubmitCard(cardType, cardID, cardName);
         }
+
+
+        #region == Auxilar ==
+        
+        private string CleanCardName(string nameDL)
+        {
+            // card name in deep link have the form -> Chief+Officer+Doyle
+            string[] words = nameDL.Split('+');
+
+            string cardName = "";
+            foreach (string word in words)
+            {
+                cardName += ' ' + word;
+            }
+
+            return cardName;
+        }
+        
+        #endregion
 
         #endregion
     }
