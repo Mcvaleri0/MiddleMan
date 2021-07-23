@@ -20,6 +20,8 @@ namespace Notifications
         #region /* Notification */
 
         public const string NOTIFICATION_TITLE = "Card Received";
+        public const string NOTIFICATION_SMALL_ICON = "notifiy_small_icon";
+        public const string NOTIFICATION_LARGE_ICON = "notifiy_large_icon";
 
         #endregion
     }

@@ -76,7 +76,9 @@ namespace Notifications
             {
                 Title = Constants.NOTIFICATION_TITLE,
                 Text = cardType + ": " + cardID,
-                FireTime = System.DateTime.Now
+                FireTime = System.DateTime.Now,
+                SmallIcon = Constants.NOTIFICATION_SMALL_ICON,
+                LargeIcon = Constants.NOTIFICATION_LARGE_ICON
             };
 
             AndroidNotificationCenter.SendNotification(notification, Constants.CHANNEL_ID);
