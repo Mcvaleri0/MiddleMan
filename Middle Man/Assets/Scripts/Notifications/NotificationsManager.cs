@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Notifications.Android;
 using UnityEngine;
+using System;
 
 
 
@@ -54,14 +55,15 @@ namespace Notifications
         
         private void CreateChannel()
         {
-            AndroidNotificationChannel c = new AndroidNotificationChannel()
+            AndroidNotificationChannel channel = new AndroidNotificationChannel()
             {
                 Id = Constants.CHANNEL_ID,
                 Name = Constants.CHANNEL_NAME,
                 Importance = Importance.High,
                 Description = Constants.CHANNEL_DESCRIPTION,
             };
-            AndroidNotificationCenter.RegisterNotificationChannel(c);
+
+            AndroidNotificationCenter.RegisterNotificationChannel(channel);
         }
 
         #endregion
@@ -76,7 +78,7 @@ namespace Notifications
             {
                 Title = Constants.NOTIFICATION_TITLE,
                 Text = cardType + ": " + cardID,
-                FireTime = System.DateTime.Now,
+                FireTime = DateTime.Now,
                 SmallIcon = Constants.NOTIFICATION_SMALL_ICON,
                 LargeIcon = Constants.NOTIFICATION_LARGE_ICON
             };
