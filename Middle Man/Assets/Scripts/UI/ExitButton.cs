@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Notifications;
+
 
 
 namespace UI
@@ -31,7 +33,6 @@ namespace UI
         {
             RectTransform buttonBox = this.transform.GetComponent<RectTransform>();
             float width = buttonBox.sizeDelta.x;
-            float height = buttonBox.sizeDelta.y;
 
             float x = Screen.width - width - 10 ;
             float y = - (0.1f * Screen.height) - 10;
@@ -46,6 +47,9 @@ namespace UI
         
         public void CloseApp()
         {
+            Transform notifyOBJ = GameObject.Find("NotificationManager").transform;
+            notifyOBJ.GetComponent<NotificationsManager>().CleanNotifications();
+
             Application.Quit();
         }
         

@@ -16,6 +16,12 @@ namespace Notifications
 
         #endregion
 
+        #region /* Notifications */
+        
+        private List<int> Notifications { get; set; }
+        
+        #endregion
+
 
 
         #region === Unity Events ===
@@ -38,6 +44,8 @@ namespace Notifications
         void Start()
         {
             this.CreateChannel();
+
+            this.Notifications = new List<int>();
         }
 
 
@@ -83,7 +91,20 @@ namespace Notifications
                 LargeIcon = Constants.NOTIFICATION_LARGE_ICON
             };
 
-            AndroidNotificationCenter.SendNotification(notification, Constants.CHANNEL_ID);
+            int notificationID = AndroidNotificationCenter.SendNotification(notification, Constants.CHANNEL_ID);
+
+            this.Notifications.Add(notificationID);
+        }
+
+
+        public void CleanNotifications()
+        {
+            foreach (int notification in this.Notifications)
+            {
+                AndroidNotificationCenter.CancelNotification(notification);
+            }
+
+            this.Notifications.Clear();
         }
         
         #endregion
