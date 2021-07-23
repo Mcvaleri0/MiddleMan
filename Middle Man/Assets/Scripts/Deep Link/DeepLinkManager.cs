@@ -80,9 +80,11 @@ namespace DeepLink
 
             Transform card = GameObject.Find("Card").transform;
             this.CardController = card.GetComponent<CardController>();
+            this.CardController.Initialize();
 
             Transform notify = GameObject.Find("NotificationManager").transform;
             this.NotificationsManager = notify.GetComponent<NotificationsManager>();
+            this.NotificationsManager.Initialize();
 
             // Adds callback funtions for the deep links
             Application.deepLinkActivated += onDeepLinkActivated;

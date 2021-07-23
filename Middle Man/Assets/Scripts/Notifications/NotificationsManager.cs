@@ -28,24 +28,12 @@ namespace Notifications
 
         private void Awake()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(this.gameObject);
-            }
-            else
-            {
-                Destroy(this.gameObject);
-            }
         }
 
 
         // Start is called before the first frame update
         void Start()
         {
-            this.CreateChannel();
-
-            this.Notifications = new List<int>();
         }
 
 
@@ -59,8 +47,30 @@ namespace Notifications
 
 
 
-        #region === Channel Methods ===
+        #region === Initialization ===
         
+        public void Initialize()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+                this.CreateChannel();
+                this.Notifications = new List<int>();
+
+                DontDestroyOnLoad(this.gameObject);
+            }
+            else
+            {
+                Destroy(this.gameObject);
+            }
+        }
+
+        #endregion
+
+
+
+        #region === Channel Methods ===
+
         private void CreateChannel()
         {
             AndroidNotificationChannel channel = new AndroidNotificationChannel()
