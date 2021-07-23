@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Cards;
+using Notifications;
 
 
 
@@ -22,6 +23,7 @@ namespace DeepLink
         #region /* Controllers */
 
         private CardController CardController { get; set; }
+        private NotificationsManager NotificationsManager { get; set; }
 
         #endregion
 
@@ -53,6 +55,9 @@ namespace DeepLink
         {
             Transform card = GameObject.Find("Card").transform;
             this.CardController = card.GetComponent<CardController>();
+
+            Transform notify = GameObject.Find("NotificationManager").transform;
+            this.NotificationsManager = notify.GetComponent<NotificationsManager>();
         }
 
 
@@ -63,6 +68,7 @@ namespace DeepLink
         }
 
         #endregion
+
 
 
         #region === Deep Link Methods ===
@@ -81,6 +87,8 @@ namespace DeepLink
             string cardName = this.CleanCardName(parameters[2]);
 
             this.CardController.SubmitCard(cardType, cardID, cardName);
+
+            this.NotificationsManager.SendNotification(cardType, cardID);
         }
 
 
