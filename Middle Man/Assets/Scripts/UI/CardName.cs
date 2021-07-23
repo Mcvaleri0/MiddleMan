@@ -23,6 +23,22 @@ namespace UI
         // Start is called before the first frame update
         void Start()
         {
+        }
+
+
+        // Update is called once per frame
+        void Update()
+        {
+        }
+
+        #endregion
+
+
+
+        #region === Initialization ===
+        
+        public void Initialize()
+        {
             this.Name = this.transform.GetComponentInChildren<Text>();
 
             int height = (int)(0.1 * Screen.height);
@@ -32,12 +48,8 @@ namespace UI
             this.SetCardName(Constants.INITAL_CARD_TEXT);
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-        }
-
         #endregion
+
 
 
         #region === Background Functions ===

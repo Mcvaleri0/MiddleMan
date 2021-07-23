@@ -35,11 +35,18 @@ namespace DeepLink
         {
             if (Instance == null)
             {
-                Instance = this;
-                Application.deepLinkActivated += onDeepLinkActivated;
+                this.InitializeSystem();
 
-                // Initialize DeepLink Manager global variable.
-                this.DeepLinkURL = "[none]";
+                if (!String.IsNullOrEmpty(Application.absoluteURL))
+                {
+                    // App initiated from deep link.
+                    onDeepLinkActivated(Application.absoluteURL);
+                }
+                else
+                {
+                    // Initialize DeepLink Manager global variable.
+                    this.DeepLinkURL = "[none]";
+                }
 
                 DontDestroyOnLoad(this.gameObject);
             }
@@ -53,11 +60,6 @@ namespace DeepLink
         // Start is called before the first frame update
         void Start()
         {
-            Transform card = GameObject.Find("Card").transform;
-            this.CardController = card.GetComponent<CardController>();
-
-            Transform notify = GameObject.Find("NotificationManager").transform;
-            this.NotificationsManager = notify.GetComponent<NotificationsManager>();
         }
 
 
@@ -65,6 +67,25 @@ namespace DeepLink
         void Update()
         {
 
+        }
+
+        #endregion
+
+
+        #region === Initialization ===
+        
+        private void InitializeSystem()
+        {
+            Instance = this;
+
+            Transform card = GameObject.Find("Card").transform;
+            this.CardController = card.GetComponent<CardController>();
+
+            Transform notify = GameObject.Find("NotificationManager").transform;
+            this.NotificationsManager = notify.GetComponent<NotificationsManager>();
+
+            // Adds callback funtions for the deep links
+            Application.deepLinkActivated += onDeepLinkActivated;
         }
 
         #endregion

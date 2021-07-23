@@ -36,25 +36,12 @@ namespace Cards
 
         private void Awake()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(this.gameObject);
-            }
-            else
-            {
-                Destroy(this.gameObject);
-            }
         }
 
 
         // Start is called before the first frame update
         void Start()
         {
-            this.CardImage = this.transform.GetComponentInChildren<CardImage>();
-            this.CardName = this.transform.GetComponentInChildren<CardName>();
-
-            this.OnSide = false;
         }
 
 
@@ -67,8 +54,46 @@ namespace Cards
         #endregion
 
 
-        #region === Information Methods ===
+
+        #region === Initialization ===
         
+        public void Initialize()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+                this.InitializeUI();
+
+                DontDestroyOnLoad(this.gameObject);
+            }
+            else
+            {
+                Destroy(this.gameObject);
+            }
+        }
+
+
+        #region == Auxiliar ==
+        
+        private void InitializeUI()
+        {
+            this.CardImage = this.transform.GetComponentInChildren<CardImage>();
+            this.CardImage.Initialize();
+
+            this.CardName = this.transform.GetComponentInChildren<CardName>();
+            this.CardName.Initialize();
+
+            this.OnSide = false;
+        }
+
+        #endregion
+
+        #endregion
+
+
+
+        #region === Information Methods ===
+
         public List<string> AllCardTypes()
         {
             List<string> types = new List<string>

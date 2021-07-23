@@ -23,10 +23,6 @@ namespace UI
         // Start is called before the first frame update
         void Start()
         {
-            this.Card = this.transform.GetComponent<Image>();
-            this.ImageBox = this.transform.GetComponent<RectTransform>();
-
-            this.SetImageDimension();
         }
 
 
@@ -41,6 +37,15 @@ namespace UI
 
 
         #region === Initialization ===
+
+        public void Initialize()
+        {
+            this.Card = this.transform.GetComponent<Image>();
+            this.ImageBox = this.transform.GetComponent<RectTransform>();
+
+            this.SetImageDimension();
+        }
+
 
         private void SetImageDimension()
         {
