@@ -78,11 +78,27 @@ namespace DeepLink
         
         private void InitializeSystem()
         {
+            this.Initialize();
+
+            this.InitializeOtherControllers();
+
+            this.BackgroundManager.GoToBackground();
+        }
+
+
+        #region == Auxiliar ==
+
+        private void Initialize()
+        {
             Instance = this;
 
             // Adds callback funtions for the deep links
             Application.deepLinkActivated += onDeepLinkActivated;
+        }
 
+
+        private void InitializeOtherControllers()
+        {
             Transform card = GameObject.Find("Card").transform;
             this.CardController = card.GetComponent<CardController>();
             this.CardController.Initialize();
@@ -98,6 +114,8 @@ namespace DeepLink
 
         #endregion
 
+        #endregion
+
 
 
         #region === Deep Link Methods ===
@@ -106,6 +124,8 @@ namespace DeepLink
         {
             // Update DeepLink Manager global variable, so URL can be accessed from anywhere.
             this.DeepLinkURL = url;
+
+            this.BackgroundManager.GoToBackground();
         }
 
 

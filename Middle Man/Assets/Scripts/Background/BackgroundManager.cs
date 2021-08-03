@@ -15,10 +15,12 @@ namespace Background
 
         public static BackgroundManager Instance { get; private set; }
 
+        private AndroidJavaObject ActivityController { get; set; }
+
         #endregion
 
         #region /* Controllers */
-        
+
         private DeepLinkManager DeepLinkManager { get; set; }
         
         #endregion
@@ -62,6 +64,7 @@ namespace Background
             {
                 Instance = this;
                 this.DeepLinkManager = deepLinkManager;
+                this.ActivityController = new AndroidJavaClass(Constants.UNITY_PLAYER_ID).GetStatic<AndroidJavaObject>(Constants.ACTIVITY);
 
                 DontDestroyOnLoad(this.gameObject);
             }
@@ -69,6 +72,17 @@ namespace Background
             {
                 Destroy(this.gameObject);
             }
+        }
+
+        #endregion
+
+
+
+        #region === Activity Methods ===
+        
+        public void GoToBackground()
+        {
+            this.ActivityController.Call<bool>(Constants.TASK_TO_BACK, true);
         }
 
         #endregion

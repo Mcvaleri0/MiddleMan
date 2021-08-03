@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace DeepLink
 {
-    public class Constants
+    public static class Constants
     {
         public const string DEEP_LINK_SCHEME = "middl";
         public const string DEEP_LINK_HOST = "middle_man";
