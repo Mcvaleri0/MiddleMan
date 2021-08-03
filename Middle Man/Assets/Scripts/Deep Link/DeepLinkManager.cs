@@ -5,6 +5,7 @@ using UnityEngine;
 
 using Cards;
 using Notifications;
+using Background;
 
 
 
@@ -24,6 +25,7 @@ namespace DeepLink
 
         private CardController CardController { get; set; }
         private NotificationsManager NotificationsManager { get; set; }
+        private BackgroundManager BackgroundManager { get; set; }
 
         #endregion
 
@@ -78,6 +80,9 @@ namespace DeepLink
         {
             Instance = this;
 
+            // Adds callback funtions for the deep links
+            Application.deepLinkActivated += onDeepLinkActivated;
+
             Transform card = GameObject.Find("Card").transform;
             this.CardController = card.GetComponent<CardController>();
             this.CardController.Initialize();
@@ -86,8 +91,9 @@ namespace DeepLink
             this.NotificationsManager = notify.GetComponent<NotificationsManager>();
             this.NotificationsManager.Initialize();
 
-            // Adds callback funtions for the deep links
-            Application.deepLinkActivated += onDeepLinkActivated;
+            Transform background = GameObject.Find("BackgroundManager").transform;
+            this.BackgroundManager = background.GetComponent<BackgroundManager>();
+            this.BackgroundManager.Initialize(this.NotificationsManager);
         }
 
         #endregion
