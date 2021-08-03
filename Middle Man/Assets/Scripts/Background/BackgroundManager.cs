@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Notifications;
+using DeepLink;
 
 
 
@@ -18,7 +19,7 @@ namespace Background
 
         #region /* Controllers */
         
-        private NotificationsManager Notifications { get; set; }
+        private DeepLinkManager DeepLinkManager { get; set; }
         
         #endregion
 
@@ -42,9 +43,10 @@ namespace Background
 
         private void OnApplicationPause(bool pause)
         {
-            if (pause)
+            if (pause && 
+               (!this.DeepLinkManager.DeepLinkURL.Equals(DeepLink.Constants.NO_DEEP_LINK)))
             {
-                this.Notifications.SendNotification("pause", "noice");
+                this.DeepLinkManager.ProcessDeepLink();
             }
         }
 
@@ -54,12 +56,12 @@ namespace Background
 
         #region === Initialization ===
 
-        public void Initialize(NotificationsManager notificationsManager)
+        public void Initialize(DeepLinkManager deepLinkManager)
         {
             if (Instance == null)
             {
                 Instance = this;
-                this.Notifications = notificationsManager;
+                this.DeepLinkManager = deepLinkManager;
 
                 DontDestroyOnLoad(this.gameObject);
             }

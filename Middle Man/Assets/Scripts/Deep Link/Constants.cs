@@ -10,5 +10,6 @@ namespace DeepLink
     {
         public const string DEEP_LINK_SCHEME = "middl";
         public const string DEEP_LINK_HOST = "middle_man";
+        public const string NO_DEEP_LINK = "[None]";
     }
 }

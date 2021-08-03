@@ -47,7 +47,7 @@ namespace DeepLink
                 else
                 {
                     // Initialize DeepLink Manager global variable.
-                    this.DeepLinkURL = "[none]";
+                    this.DeepLinkURL = Constants.NO_DEEP_LINK;
                 }
 
                 DontDestroyOnLoad(this.gameObject);
@@ -93,7 +93,7 @@ namespace DeepLink
 
             Transform background = GameObject.Find("BackgroundManager").transform;
             this.BackgroundManager = background.GetComponent<BackgroundManager>();
-            this.BackgroundManager.Initialize(this.NotificationsManager);
+            this.BackgroundManager.Initialize(this);
         }
 
         #endregion
@@ -106,10 +106,14 @@ namespace DeepLink
         {
             // Update DeepLink Manager global variable, so URL can be accessed from anywhere.
             this.DeepLinkURL = url;
+        }
 
+
+        public void ProcessDeepLink()
+        {
             // Decode the URL to determine action. 
             // deep links have the form -> middl://middle_man?type/id/name
-            string[] parameters = url.Split('?')[1].Split('/');
+            string[] parameters = this.DeepLinkURL.Split('?')[1].Split('/');
 
             string cardType = parameters[0];
             string cardID = parameters[1];
@@ -122,7 +126,7 @@ namespace DeepLink
 
 
         #region == Auxilar ==
-        
+
         private string CleanCardName(string nameDL)
         {
             // card name in deep link have the form -> Chief+Officer+Doyle
