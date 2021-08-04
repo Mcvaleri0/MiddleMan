@@ -82,7 +82,7 @@ namespace Background
         
         public void GoToBackground()
         {
-            this.ActivityController.Call<bool>(Constants.TASK_TO_BACK, true);
+            //this.ActivityController.Call<bool>(Constants.TASK_TO_BACK, true);
         }
 
         #endregion
