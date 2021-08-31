@@ -37,7 +37,7 @@ namespace UI
 
         #region === Initialization ===
         
-        public void Initialize()
+        public void Initialize(bool inAndroid)
         {
             this.Name = this.transform.GetComponentInChildren<Text>();
 
@@ -45,7 +45,9 @@ namespace UI
 
             this.SetBackgroundDimension(Screen.width, height);
             this.SetTextDimensions(Screen.width, height);
-            this.SetCardName(Constants.INITAL_CARD_TEXT);
+
+            var initalText = (inAndroid ? Constants.INITAL_CARD_TEXT : Constants.NOT_ANDROID_TEXT);
+            this.SetCardName(initalText);
         }
 
         #endregion

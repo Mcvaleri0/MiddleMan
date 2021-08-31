@@ -37,9 +37,10 @@ namespace DeepLink
         {
             if (Instance == null)
             {
-                this.InitializeSystem();
+                var inAndroid = (Application.platform == RuntimePlatform.Android);
+                this.InitializeSystem(inAndroid);
 
-                if (!String.IsNullOrEmpty(Application.absoluteURL))
+                if (inAndroid && !String.IsNullOrEmpty(Application.absoluteURL))
                 {
                     // App initiated from deep link.
                     onDeepLinkActivated(Application.absoluteURL);
@@ -76,40 +77,49 @@ namespace DeepLink
 
         #region === Initialization ===
         
-        private void InitializeSystem()
+        private void InitializeSystem(bool inAndrdoid)
         {
-            this.Initialize();
+            this.Initialize(inAndrdoid);
 
-            this.InitializeOtherControllers();
+            this.InitializeOtherControllers(inAndrdoid);
 
-            this.BackgroundManager.GoToBackground();
+            if (inAndrdoid)
+            {
+                this.BackgroundManager.GoToBackground();
+            }
         }
 
 
         #region == Auxiliar ==
 
-        private void Initialize()
+        private void Initialize(bool inAndroid)
         {
             Instance = this;
 
-            // Adds callback funtions for the deep links
-            Application.deepLinkActivated += onDeepLinkActivated;
+            if (inAndroid)
+            {
+                // Adds callback funtions for the deep links
+                Application.deepLinkActivated += onDeepLinkActivated;
+            }
         }
 
 
-        private void InitializeOtherControllers()
+        private void InitializeOtherControllers(bool inAndroid)
         {
             Transform card = GameObject.Find("Card").transform;
             this.CardController = card.GetComponent<CardController>();
-            this.CardController.Initialize();
+            this.CardController.Initialize(inAndroid);
 
-            Transform notify = GameObject.Find("NotificationManager").transform;
-            this.NotificationsManager = notify.GetComponent<NotificationsManager>();
-            this.NotificationsManager.Initialize();
+            if (inAndroid)
+            {
+                Transform notify = GameObject.Find("NotificationManager").transform;
+                this.NotificationsManager = notify.GetComponent<NotificationsManager>();
+                this.NotificationsManager.Initialize();
 
-            Transform background = GameObject.Find("BackgroundManager").transform;
-            this.BackgroundManager = background.GetComponent<BackgroundManager>();
-            this.BackgroundManager.Initialize(this);
+                Transform background = GameObject.Find("BackgroundManager").transform;
+                this.BackgroundManager = background.GetComponent<BackgroundManager>();
+                this.BackgroundManager.Initialize(this);
+            }
         }
 
         #endregion

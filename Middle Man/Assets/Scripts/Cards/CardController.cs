@@ -57,12 +57,12 @@ namespace Cards
 
         #region === Initialization ===
         
-        public void Initialize()
+        public void Initialize(bool inAndroid)
         {
             if (Instance == null)
             {
                 Instance = this;
-                this.InitializeUI();
+                this.InitializeUI(inAndroid);
 
                 DontDestroyOnLoad(this.gameObject);
             }
@@ -75,13 +75,13 @@ namespace Cards
 
         #region == Auxiliar ==
         
-        private void InitializeUI()
+        private void InitializeUI(bool inAndroid)
         {
             this.CardImage = this.transform.GetComponentInChildren<CardImage>();
             this.CardImage.Initialize();
 
             this.CardName = this.transform.GetComponentInChildren<CardName>();
-            this.CardName.Initialize();
+            this.CardName.Initialize(inAndroid);
 
             this.OnSide = false;
         }
@@ -194,7 +194,6 @@ namespace Cards
             path = Path.Combine(path, id);
 
             this.LoadCard(path, name, needsRotation);
-
         }
 
 

@@ -47,6 +47,7 @@ namespace Background
         private void OnApplicationPause(bool pause)
         {
             if (pause && 
+               (this.DeepLinkManager != null) &&
                (!this.DeepLinkManager.DeepLinkURL.Equals(DeepLink.Constants.NO_DEEP_LINK)))
             {
                 this.DeepLinkManager.ProcessDeepLink();
@@ -65,8 +66,12 @@ namespace Background
             {
                 Instance = this;
                 this.DeepLinkManager = deepLinkManager;
-                this.ActivityController = new AndroidJavaClass(Constants.UNITY_PLAYER_ID).GetStatic<AndroidJavaObject>(Constants.ACTIVITY);
-                this.PackageManager = this.ActivityController.Call<AndroidJavaObject>(Constants.GET_PACKAGE_MANAGER);
+
+                if (Application.platform == RuntimePlatform.Android)
+                {
+                    this.ActivityController = new AndroidJavaClass(Constants.UNITY_PLAYER_ID).GetStatic<AndroidJavaObject>(Constants.ACTIVITY);
+                    this.PackageManager = this.ActivityController.Call<AndroidJavaObject>(Constants.GET_PACKAGE_MANAGER);
+                }
 
                 DontDestroyOnLoad(this.gameObject);
             }
@@ -84,9 +89,6 @@ namespace Background
         
         public void GoToBackground()
         {
-            //this.ActivityController.Call<bool>(Constants.TASK_TO_BACK, true);
-
-
             try
             {
                 AndroidJavaObject launchIntent = this.PackageManager.Call<AndroidJavaObject>(Constants.GET_LAUNCH_INTENT, Constants.CHRONICLES_BUNDLE_ID);
@@ -97,7 +99,7 @@ namespace Background
             }
             catch (System.Exception)
             {
-                Application.OpenURL("https://google.com");
+                Application.Quit();
             }
         }
 
