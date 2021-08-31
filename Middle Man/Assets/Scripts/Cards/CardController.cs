@@ -80,8 +80,8 @@ namespace Cards
             this.CardImage = this.transform.GetComponentInChildren<CardImage>();
             this.CardImage.Initialize();
 
-            this.CardName = this.transform.GetComponentInChildren<CardName>();
-            this.CardName.Initialize(inAndroid);
+            //this.CardName = this.transform.GetComponentInChildren<CardName>();
+            //this.CardName.Initialize(inAndroid);
 
             this.OnSide = false;
         }

@@ -37,7 +37,7 @@ namespace DeepLink
         {
             if (Instance == null)
             {
-                var inAndroid = (Application.platform == RuntimePlatform.Android);
+                var inAndroid = false /*(Application.platform == RuntimePlatform.Android)*/;
                 this.InitializeSystem(inAndroid);
 
                 if (inAndroid && !String.IsNullOrEmpty(Application.absoluteURL))
