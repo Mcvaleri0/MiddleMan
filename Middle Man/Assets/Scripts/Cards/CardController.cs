@@ -93,16 +93,17 @@ namespace Cards
 
 
         #region === Information Methods ===
+        // this methods no longer need to work
 
         public List<string> AllCardTypes()
         {
             List<string> types = new List<string>
             {
-                Constants.CHARACTER_TYPE,
-                Constants.EVIDENCE_TYPE,
-                Constants.FORENSIC_TYPE,
-                Constants.ITEM_TYPE,
-                Constants.LOCATION_TYPE
+                //Constants.CHARACTER_TYPE,
+                //Constants.EVIDENCE_TYPE,
+                //Constants.FORENSIC_TYPE,
+                //Constants.ITEM_TYPE,
+                //Constants.LOCATION_TYPE
             };
 
             return types;
@@ -113,23 +114,23 @@ namespace Cards
         {
             switch(type)
             {
-                case Constants.CHARACTER_TYPE:
-                    return this.GetCardIDs(Constants.CHARACTERS_IMAGES);
+                //case Constants.CHARACTER_TYPE:
+                //    return this.GetCardIDs(Constants.CHARACTERS_IMAGES);
 
-                case Constants.EVIDENCE_TYPE:
-                    return this.GetCardIDs(Constants.EVIDENCES_IMAGES);
+                //case Constants.EVIDENCE_TYPE:
+                //    return this.GetCardIDs(Constants.EVIDENCES_IMAGES);
 
-                case Constants.FORENSIC_TYPE:
-                    return this.GetCardIDs(Constants.FORENSIC_IMAGES);
+                //case Constants.FORENSIC_TYPE:
+                //    return this.GetCardIDs(Constants.FORENSIC_IMAGES);
 
-                case Constants.ITEM_TYPE:
-                    return this.GetCardIDs(Constants.ITEMS_IMAGES);
+                //case Constants.ITEM_TYPE:
+                //    return this.GetCardIDs(Constants.ITEMS_IMAGES);
 
-                case Constants.LOCATION_TYPE:
-                    return this.GetCardIDs(Constants.LOCATIONS_IMAGES);
+                //case Constants.LOCATION_TYPE:
+                //    return this.GetCardIDs(Constants.LOCATIONS_IMAGES);
 
                 default:
-                    throw new System.Exception(Constants.INVALID_TYPE_RECEIVED);
+                    throw new System.Exception(Constants.INVALID_PATH_TYPE);
             };
         }
 
@@ -160,45 +161,47 @@ namespace Cards
 
         public void SubmitCard(string type, string id, string name)
         {
-            string path;
             bool needsRotation = false;
+            Constants.PathTypes pathType = Constants.PathTypes.ShowCodes;
 
-            switch(type)
+            if (pathType == Constants.PathTypes.ShowImages &&
+               (type.Equals(Constants.CARD_TYPE_FORENSIC)) ||
+               (type.Equals(Constants.CARD_TYPE_LOCATION)))
             {
-                case Constants.CHARACTER_TYPE:
-                    path = Constants.CHARACTERS_IMAGES;
-                    break;
-
-                case Constants.EVIDENCE_TYPE:
-                    path = Constants.EVIDENCES_IMAGES;
-                    break;
-
-                case Constants.FORENSIC_TYPE:
-                    path = Constants.FORENSIC_IMAGES;
-                    needsRotation = true;
-                    break;
-
-                case Constants.ITEM_TYPE:
-                    path = Constants.ITEMS_IMAGES;
-                    break;
-
-                case Constants.LOCATION_TYPE:
-                    path = Constants.LOCATIONS_IMAGES;
-                    needsRotation = true;
-                    break;
-
-                default:
-                    throw new System.Exception(Constants.INVALID_TYPE_RECEIVED);
+                needsRotation = true;
             }
-            
-            path = Path.Combine(path, id);
+
+            string path = this.BuildCardPath(pathType, type, id);
 
             this.LoadCard(path, name, needsRotation);
-
         }
 
 
         #region == Auxiliar ==
+
+        private string BuildCardPath(Constants.PathTypes pathType, string cardType, string cardID)
+        {
+            var path = Path.Combine(Constants.CARDS_PATH, cardType);
+
+            switch (pathType)
+            {
+                case Constants.PathTypes.ShowCodes:
+                    path = Path.Combine(path, Constants.CODES_PATH);
+                    break;
+
+                case Constants.PathTypes.ShowImages:
+                    path = Path.Combine(path, Constants.IMAGES_PATH);
+                    break;
+
+                default:
+                    throw new System.Exception(Constants.INVALID_PATH_TYPE);
+            }
+
+            path = Path.Combine(path, cardID);
+
+            return path;
+        }
+
 
         private void LoadCard(string path, string name, bool rotated)
         {
