@@ -4,6 +4,7 @@ using System.IO;
 using UnityEngine;
 
 using UI;
+using Touch;
 
 
 
@@ -17,18 +18,20 @@ namespace Cards
 
         #endregion
 
-        #region /* UI Controllers */
+        #region /* Controllers */
         
         private CardImage CardImage { get; set; }
         private CardName CardName { get; set; }
 
+        private TouchSimulator Simulator { get; set; }
+
+        #endregion
+
         #region Auxiliar
-        
+
         private bool OnSide { get; set; }
 
         public Constants.PathTypes PathType;
-        
-        #endregion
 
         #endregion
 
@@ -64,7 +67,7 @@ namespace Cards
             if (Instance == null)
             {
                 Instance = this;
-                this.InitializeUI();
+                this.InitializeControllers();
 
                 DontDestroyOnLoad(this.gameObject);
             }
@@ -77,8 +80,9 @@ namespace Cards
 
         #region == Auxiliar ==
         
-        private void InitializeUI()
+        private void InitializeControllers()
         {
+            // Initialize UI
             this.CardImage = this.transform.GetComponentInChildren<CardImage>();
             this.CardImage.Initialize(Instance);
 
@@ -86,6 +90,10 @@ namespace Cards
             this.CardName.Initialize();
 
             this.OnSide = false;
+
+            // Initialize Other Controllers
+            this.Simulator = GameObject.Find("TouchSimulator").GetComponent<TouchSimulator>();
+            this.Simulator.Initialize();
         }
 
         #endregion
@@ -163,22 +171,26 @@ namespace Cards
 
         public void SubmitCard(string type, string id, string name)
         {
-            bool needsRotation = false;
-
             if (type.Equals(Constants.END_INTERROGATION_TYPE))
             {
+                this.Simulator.EndInterrogation();
                 return;
             }
-            else if (this.PathType == Constants.PathTypes.ShowImages &&
-               (type.Equals(Constants.CARD_TYPE_FORENSIC)) ||
-               (type.Equals(Constants.CARD_TYPE_LOCATION)))
+            else
             {
-                needsRotation = true;
+                bool needsRotation = false;
+
+                if (this.PathType == Constants.PathTypes.ShowImages &&
+                   (type.Equals(Constants.CARD_TYPE_FORENSIC)) ||
+                   (type.Equals(Constants.CARD_TYPE_LOCATION)))
+                {
+                    needsRotation = true;
+                }
+
+                string path = this.BuildCardPath(type, id);
+
+                this.LoadCard(path, name, needsRotation);
             }
-
-            string path = this.BuildCardPath(type, id);
-
-            this.LoadCard(path, name, needsRotation);
         }
 
 
