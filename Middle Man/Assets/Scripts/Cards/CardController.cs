@@ -165,7 +165,11 @@ namespace Cards
         {
             bool needsRotation = false;
 
-            if (this.PathType == Constants.PathTypes.ShowImages &&
+            if (type.Equals(Constants.END_INTERROGATION_TYPE))
+            {
+                return;
+            }
+            else if (this.PathType == Constants.PathTypes.ShowImages &&
                (type.Equals(Constants.CARD_TYPE_FORENSIC)) ||
                (type.Equals(Constants.CARD_TYPE_LOCATION)))
             {

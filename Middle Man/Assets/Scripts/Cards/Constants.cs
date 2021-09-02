@@ -18,6 +18,8 @@ namespace Cards
         public const string CARD_TYPE_ITEM = "special";
         public const string CARD_TYPE_LOCATION = "location";
 
+        public const string END_INTERROGATION_TYPE = "end";
+
         #endregion
 
 
