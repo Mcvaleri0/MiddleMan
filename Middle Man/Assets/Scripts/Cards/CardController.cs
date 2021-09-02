@@ -25,6 +25,8 @@ namespace Cards
         #region Auxiliar
         
         private bool OnSide { get; set; }
+
+        public Constants.PathTypes PathType;
         
         #endregion
 
@@ -162,16 +164,15 @@ namespace Cards
         public void SubmitCard(string type, string id, string name)
         {
             bool needsRotation = false;
-            Constants.PathTypes pathType = Constants.PathTypes.ShowCodes;
 
-            if (pathType == Constants.PathTypes.ShowImages &&
+            if (this.PathType == Constants.PathTypes.ShowImages &&
                (type.Equals(Constants.CARD_TYPE_FORENSIC)) ||
                (type.Equals(Constants.CARD_TYPE_LOCATION)))
             {
                 needsRotation = true;
             }
 
-            string path = this.BuildCardPath(pathType, type, id);
+            string path = this.BuildCardPath(type, id);
 
             this.LoadCard(path, name, needsRotation);
         }
@@ -179,11 +180,11 @@ namespace Cards
 
         #region == Auxiliar ==
 
-        private string BuildCardPath(Constants.PathTypes pathType, string cardType, string cardID)
+        private string BuildCardPath(string cardType, string cardID)
         {
             var path = Path.Combine(Constants.CARDS_PATH, cardType);
 
-            switch (pathType)
+            switch (this.PathType)
             {
                 case Constants.PathTypes.ShowCodes:
                     path = Path.Combine(path, Constants.CODES_PATH);
