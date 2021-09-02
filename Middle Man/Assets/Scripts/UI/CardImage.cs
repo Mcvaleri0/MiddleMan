@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using Cards;
+using CardConstants = Cards.Constants;
+
 
 
 namespace UI
@@ -13,6 +16,12 @@ namespace UI
         
         private RectTransform ImageBox { get; set; }
         private Image Card { get; set; }
+
+        #endregion
+
+        #region /* Controllers */
+        
+        private CardController CardController { get; set; }
         
         #endregion
 
@@ -38,8 +47,10 @@ namespace UI
 
         #region === Initialization ===
 
-        public void Initialize()
+        public void Initialize(CardController controller)
         {
+            this.CardController = controller;
+
             this.Card = this.transform.GetComponent<Image>();
             this.ImageBox = this.transform.GetComponent<RectTransform>();
 
@@ -47,11 +58,17 @@ namespace UI
         }
 
 
-        private void SetImageDimension()
+        private void SetImageDimension(int width=0, int height=0)
         {
-
-            int height = (int)(0.9 * Screen.height);
-            this.ImageBox.sizeDelta = new Vector2(Screen.width, height);
+            if (width == 0)
+            {
+                width = Screen.width;
+            }
+            if (height == 0)
+            {
+                height = (int)(0.9 * Screen.height);
+            }
+            this.ImageBox.sizeDelta = new Vector2(width, height);
 
             int y = -(int)(0.05 * Screen.height);
             this.ImageBox.anchoredPosition = new Vector2(0, y);
@@ -65,6 +82,11 @@ namespace UI
         
         public void SetCardImage(Sprite image) 
         {
+            if (this.CardController.PathType == CardConstants.PathTypes.ShowCodes)
+            {
+                this.SetImageDimension(Screen.width, Screen.width);
+            }
+
             this.Card.sprite = image;
         }
 

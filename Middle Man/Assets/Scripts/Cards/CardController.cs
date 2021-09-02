@@ -80,7 +80,7 @@ namespace Cards
         private void InitializeUI()
         {
             this.CardImage = this.transform.GetComponentInChildren<CardImage>();
-            this.CardImage.Initialize();
+            this.CardImage.Initialize(Instance);
 
             this.CardName = this.transform.GetComponentInChildren<CardName>();
             this.CardName.Initialize();
